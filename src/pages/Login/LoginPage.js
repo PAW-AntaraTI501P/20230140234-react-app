@@ -20,8 +20,17 @@ function LoginPage() {
             navigate('/');
         }
         catch (error) {
-            console.error("Login gagal:", error.response.data);
-            alert("Login gagal. Periksa kembali email dan password anda.");
+            if (error.response) {
+                const errorMessage = error.response.data.msg || "Email atau password salah.";
+                alert(errorMessage);
+                console.error("Login gagal (Server Response):", errorMessage);
+            }
+            else {
+                alert("Terjadi kesalahan pada server. Silakan coba lagi nanti.");
+                console.error("Login gagal (Connection Error):", error.message);
+            }
+            // console.error("Login gagal:", error.response.data);
+            // alert("Login gagal. Periksa kembali email dan password anda.");
         }
     };
 
